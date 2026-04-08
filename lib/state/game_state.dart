@@ -12,25 +12,48 @@ import 'package:flutter/foundation.dart';
 class GameState extends ChangeNotifier {
   GameState() : _char = Character.initial();
 
-  Character _char;
+  final Character _char;
   RandomEvent? _pendingEvent;
 
   // ---------------------------------------------------------------------------
   // Getters
   // ---------------------------------------------------------------------------
 
+  // ---------------------------------------------------------------------------
+  // Getters — читаемые снаружи поля без прямого доступа к приватным полям
+  // ---------------------------------------------------------------------------
+
+  /// Полный объект персонажа (используется там, где нужно передать всё сразу).
   Character get character => _char;
+
+  /// Текущее нерешённое событие; виджеты проверяют это поле, чтобы показать экран события.
   RandomEvent? get pendingEvent => _pendingEvent;
 
+  /// Текущий баланс персонажа в рублях.
   int get money => _char.money;
+
+  /// Уровень счастья (0–100). При 0 — проигрыш.
   int get happiness => _char.happiness;
+
+  /// Уровень энергии (0–100). При 0 — проигрыш.
   int get energy => _char.energy;
+
+  /// Финансовый IQ персонажа (0–100). Влияет на эффективность финансовых действий.
   int get financialIQ => _char.financialIQ;
+
+  /// Текущий игровой день (1–30).
   int get day => _char.day;
+
+  /// Накопленные RPG-очки за финансово грамотные решения.
   int get points => _char.points;
 
+  /// true, если выполнено условие победы: day >= 30 AND money >= 100 000.
   bool get isWin => _char.isWin;
+
+  /// true, если выполнено условие поражения: money < −20 000, happiness == 0 или energy == 0.
   bool get isLose => _char.isLose;
+
+  /// true, если игра завершена (победа или поражение).
   bool get isGameOver => isWin || isLose;
 
   // ---------------------------------------------------------------------------
