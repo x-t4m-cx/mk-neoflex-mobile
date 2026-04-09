@@ -2,10 +2,15 @@ import 'package:budget_rpg/models/game_action.dart';
 import 'package:flutter/material.dart';
 
 class UiActionCard extends StatelessWidget {
-  const UiActionCard({super.key, required this.action});
+  const UiActionCard({
+    super.key,
+    required this.action,
+    required this.onPressed,
+    });
 
   final GameAction action;
-
+  final VoidCallback onPressed;
+  
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -13,8 +18,9 @@ class UiActionCard extends StatelessWidget {
         title: Text(action.name),
         subtitle: Text(_buildEffectText()),
         trailing: FilledButton.tonal(
-          onPressed: () {}, 
-          child: const Text('Выбрать')),
+          onPressed: onPressed, 
+          child: const Text('Выбрать')
+          ),
         )
         );
   }

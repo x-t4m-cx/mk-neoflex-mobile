@@ -1,6 +1,15 @@
 import 'package:budget_rpg/models/random_event.dart';
 
-const List<RandomEvent> kAllEvents = [
+
+const List<RandomEvent> positiveEvents = [
+  RandomEvent(
+    id: 'bonus',
+    title: 'Премия',
+    description: 'Работодатель оценил ваши старания!',
+    moneyDelta: 10000,
+  ),
+];
+const List<RandomEvent> negativeEvents = [
   RandomEvent(
     id: 'broken_phone',
     title: 'Сломался телефон',
@@ -12,12 +21,6 @@ const List<RandomEvent> kAllEvents = [
     title: 'Скидка на ноутбук',
     description: 'Выгодное предложение — но придётся раскошелиться.',
     moneyDelta: -20000,
-  ),
-  RandomEvent(
-    id: 'bonus',
-    title: 'Премия',
-    description: 'Работодатель оценил ваши старания!',
-    moneyDelta: 10000,
   ),
   RandomEvent(
     id: 'medical',

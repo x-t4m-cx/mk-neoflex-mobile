@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:budget_rpg/data/actions_data.dart';
 import 'package:budget_rpg/data/events_data.dart';
 import 'package:budget_rpg/models/character.dart';
 import 'package:budget_rpg/models/game_action.dart';
@@ -16,7 +15,7 @@ import 'package:flutter/foundation.dart';
 class GameState extends ChangeNotifier {
   GameState() : _char = Character.initial();
 
-  final Character _char;
+  Character _char;
   RandomEvent? _pendingEvent;
 
   // ---------------------------------------------------------------------------
@@ -69,12 +68,14 @@ class GameState extends ChangeNotifier {
   /// Вероятность события — 30%. Возвращает событие или null.
   /// После изменения вызвать notifyListeners().
   RandomEvent? rollRandomEvent() {
-    if (_rng.nextDouble() < 0.30) {
-      _pendingEvent = kAllEvents[_rng.nextInt(kAllEvents.length)];
+    var p = _rng.nextDouble();
+    if (p < 0.20) {
+      _pendingEvent = positiveEvents[_rng.nextInt(positiveEvents.length)];
+    } else if ( p < 0.35) {
+      _pendingEvent = negativeEvents[_rng.nextInt(negativeEvents.length)];
     } else {
       _pendingEvent = null;
     }
-
     notifyListeners();
   
     return _pendingEvent;
@@ -83,21 +84,33 @@ class GameState extends ChangeNotifier {
   /// Применяет эффекты случайного [event] к персонажу.
   /// Использовать _char.applyDeltas(...). Сбросить _pendingEvent.
   void applyEvent(RandomEvent event) {
-    // TODO: реализовать
-    throw UnimplementedError();
+    _char = _char.applyDeltas(
+      moneyDelta: event.moneyDelta,
+      happinessDelta: event.happinessDelta,
+      energyDelta: event.energyDelta,
+    );
+    _pendingEvent = null;
+
+    notifyListeners();
   }
 
   /// Применяет выбранное игроком [action] к персонажу.
   /// Использовать _char.applyAction(action).
   /// Бонус: +5 очков если баланс после действия остался положительным.
   void applyAction(GameAction action) {
-    // TODO: реализовать
-    throw UnimplementedError();
+    _char = _char.applyAction(action);
+
+    if (_char.money > 0) {
+      _char = _char.copyWith(points: _char.points + 5);
+    }
+    notifyListeners();
   }
 
   /// Сбрасывает игру в начальное состояние.
   void resetGame() {
-    // TODO: реализовать
-    throw UnimplementedError();
+    _char = Character.initial();
+    _pendingEvent = null;
+
+    notifyListeners();
   }
 }
