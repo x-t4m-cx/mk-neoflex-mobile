@@ -20,9 +20,6 @@ class ActionsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: вывести список действий из kAllActions, сгруппированных по категории
-    // TODO: карточка действия — название, эффекты (деньги/счастье/энергия/IQ)
-    // TODO: кнопка «Выбрать» — applyAction(), затем ResultRoute или DashboardRoute
     return Scaffold(
       appBar: AppBar(title: const Text('Выбери действие')),
       body: SingleChildScrollView(

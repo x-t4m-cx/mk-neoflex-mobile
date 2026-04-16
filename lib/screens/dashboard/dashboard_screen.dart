@@ -12,10 +12,8 @@ class DashboardScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // получить GameState через context.watch<GameState>()
     final state = context.watch<GameState>();
   
-    // TODO: кнопка «Следующий день» — rollRandomEvent() → EventRoute или ActionsRoute
     return Scaffold(
       appBar: AppBar(title: const Text('Budget RPG')),
       body: Padding(
